@@ -1,11 +1,11 @@
 import pyrealsense2 as rs
 import numpy as np
 import cv2
-# from pyrealsense2 import playback
+from pyrealsense2 import playback
 
-# bag_path = 'stairs.bag'
+bag_path = 'stairs.bag'
 # bag_path = 'd435i_walk_around.bag'
-bag_path = 'd435i_walking.bag'
+# bag_path = 'd435i_walking.bag'
 # bag_path = 'depth_under_water.bag'
 # bag_path = 'outdoors.bag'
 
@@ -29,6 +29,8 @@ try:
 
         depth_image = np.asanyarray(depth_frame.get_data())
         depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
+
+
 
         cv2.imshow('Simulated Depth Stream', depth_colormap)
         if cv2.waitKey(1) & 0xFF == ord('q'):
