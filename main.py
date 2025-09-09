@@ -29,12 +29,12 @@ try:
             if event.type == pygame.QUIT:
                 running = False
 
-#         # Get motion position from RealSense
-#         motion_pos = motion_detector.get_motion_position()
+        # Get motion position from RealSense
+        motion_pos = motion_detector.get_motion_position()
 
-#         if motion_pos and circle.check_click(motion_pos):
-#             score_manager.increment()
-#             circle.schedule_respawn(1)
+        if motion_pos and circle.check_click(motion_pos):
+            score_manager.increment()
+            circle.schedule_respawn(1)
 
         circle.try_respawn()
         circle.draw(screen)
