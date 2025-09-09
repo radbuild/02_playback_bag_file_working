@@ -3,7 +3,7 @@ import sys
 import time
 from score import ScoreManager
 from circle import Circle
-from realsense_input import RealSenseMotion
+# from realsense_input import RealSenseMotion
 
 # Initialize Pygame
 pygame.init()
@@ -16,7 +16,7 @@ WHITE = (255, 255, 255)
 # Game objects
 circle = Circle(width, height)
 score_manager = ScoreManager()
-motion_detector = RealSenseMotion(width, height)
+# motion_detector = RealSenseMotion(width, height)
 
 clock = pygame.time.Clock()
 running = True
@@ -30,15 +30,18 @@ try:
                 running = False
 
         # Get motion position from RealSense
-        motion_pos = motion_detector.get_motion_position()
+        # motion_pos = motion_detector.get_motion_position()
 
-        if motion_pos and circle.check_click(motion_pos):
-            score_manager.increment()
-            circle.schedule_respawn(1)
-
+        # if motion_pos and circle.check_overlap(motion_pos):
+        #     score_manager.increment()
+        #     circle.schedule_respawn(1)
+        
         circle.try_respawn()
         circle.draw(screen)
         score_manager.render(screen)
+
+        # circlePosX = circle.center
+        # print(circlePosX)
 
         pygame.display.flip()
         clock.tick(30)
