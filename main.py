@@ -3,7 +3,7 @@ import sys
 import time
 from score import ScoreManager
 from circle import Circle
-# from realsense_input import RealSenseMotion
+from realsense_input import RealSenseMotion
 
 # Initialize Pygame
 pygame.init()
@@ -16,7 +16,15 @@ WHITE = (255, 255, 255)
 # Game objects
 circle = Circle(width, height)
 score_manager = ScoreManager()
-# motion_detector = RealSenseMotion(width, height)
+
+# try:
+#     motion_detector = RealSenseMotion(width, height)
+
+# except RuntimeError as e:
+#     if "No device connected" in str(e):
+#         print("[ERROR] No Intel RealSense device detected. Please check USB connection.")
+#         sys.exit(1)
+
 
 clock = pygame.time.Clock()
 running = True
