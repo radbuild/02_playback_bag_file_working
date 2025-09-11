@@ -4,6 +4,8 @@ import time
 from score import ScoreManager
 from circle import Circle
 from realsense_input import RealSenseMotion
+from ui_zone import GestureZone
+from player import Player
 
 # Initialize Pygame
 pygame.init()
@@ -18,8 +20,15 @@ GREEN = (0, 255, 0)
 # Game objects
 circle = Circle(width, height)
 score_manager = ScoreManager()
+
 # Define a rectangular gesture zone
-zone_rect = pygame.Rect(100, 100, 200, 150)
+# zone_rect = pygame.Rect(100, 100, 200, 150)
+
+zone_left = GestureZone(pygame.Rect(50, 350, 150, 50), "Left")
+zone_right = GestureZone(pygame.Rect(450, 350, 150, 50), "Right")
+zones = [zone_left, zone_right]
+
+player = Player(width, height)
 
 # try:
 #     motion_detector = RealSenseMotion(width, height)
@@ -57,15 +66,25 @@ try:
         mouse_pos = pygame.mouse.get_pos()
         pygame.draw.circle(screen, RED, mouse_pos, 5)
 
+        player.draw(screen)
+
+        for zone in zones:
+            if zone.check_overlap(mouse_pos):
+                if zone.label == "Left":
+                    player.move_left()
+                elif zone.label == "Right":
+                    player.move_right()
+            zone.draw(screen)
+
         # Simulate motion if mouse hovers over the circle
         motion_pos = mouse_pos if circle.check_overlap(mouse_pos) else None
 
-        pygame.draw.rect(screen, GREEN, zone_rect, 2)
+        # pygame.draw.rect(screen, GREEN, zone_rect, 2)
 
         # Check overlap bet. zone and motion
         # if motion_pos:
-        if zone_rect.collidepoint(mouse_pos):
-            print("Motion detected in gesture zone!")
+        # if zone_rect.collidepoint(mouse_pos):
+        #     print("Motion detected in gesture zone!")
 
         if motion_pos:
             score_manager.increment()
