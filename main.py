@@ -71,7 +71,7 @@ try:
         for zone in zones:
             if zone.check_overlap(mouse_pos):
                 if zone.label == "Left":
-                    player.move_left()
+                    player.move_left()  # Player move left
                 elif zone.label == "Right":
                     player.move_right()
             zone.draw(screen)
