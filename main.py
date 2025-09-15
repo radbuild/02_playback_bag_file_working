@@ -30,13 +30,15 @@ zones = [zone_left, zone_right]
 
 player = Player(width, height)
 
-# try:
-#     motion_detector = RealSenseMotion(width, height)
+try:
+    motion_detector = RealSenseMotion(width, height)
 
-# except RuntimeError as e:
-#     if "No device connected" in str(e):
-#         print("[ERROR] No Intel RealSense device detected. Please check USB connection.")
-#         sys.exit(1)
+except RuntimeError as e:
+    if "No device connected" in str(e):
+        print("[ERROR] No Intel RealSense device detected. Please check USB connection.")
+        motion_detector = None
+        print(motion_detector)
+        # sys.exit(1)
 
 clock = pygame.time.Clock()
 running = True
@@ -55,16 +57,21 @@ try:
             #     if event.key == pygame.K_SPACE:
             #         simulate_trigger = True        
         
-        # Get motion position from RealSense
-        # motion_pos = motion_detector.get_motion_position()
-
         # Simulate trigger with keyboard "space"
         # motion_pos = (circle.center[0], circle.center[1]) if simulate_trigger else None
         # simulate_trigger = False    # Reset after one frame
 
+        # Get RealSense motion position  
+        if motion_detector:
+            depth_pos = motion_detector.get_motion_position() # Returns (x, y) or None
+            print(depth_pos)
+        
         # Get mouse position
         mouse_pos = pygame.mouse.get_pos()
         pygame.draw.circle(screen, RED, mouse_pos, 5)
+
+        # Use depth input if available, otherwise fall back to mouse hover
+        # motion_pos = depth_pos if depth_pos else (mouse_pos if circle.check_overlap(mouse_pos) else None)
 
         player.draw(screen)
 
