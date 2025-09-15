@@ -35,9 +35,10 @@ try:
 
 except RuntimeError as e:
     if "No device connected" in str(e):
-        print("[ERROR] No Intel RealSense device detected. Please check USB connection.")
+        print("Depth camera device not detected")
         motion_detector = None
-        print(motion_detector)
+        show_camera_warning = True
+        # print(motion_detector)
         # sys.exit(1)
 
 clock = pygame.time.Clock()
@@ -51,12 +52,21 @@ try:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if show_camera_warning:
+                    show_camera_warning = False
 
             # Simulate trigger with keyboard "space"
             # if event.type == pygame.KEYDOWN:
             #     if event.key == pygame.K_SPACE:
             #         simulate_trigger = True        
         
+        if show_camera_warning:
+            font = pygame.font.SysFont(None, 36)
+            warning_text = font.render("Depth camera not detected", True, (255, 0, 0))
+            text_rect = warning_text.get_rect(center = (width//2, 440))
+            screen.blit(warning_text, text_rect)
+
         # Simulate trigger with keyboard "space"
         # motion_pos = (circle.center[0], circle.center[1]) if simulate_trigger else None
         # simulate_trigger = False    # Reset after one frame
